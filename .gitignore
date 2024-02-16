@@ -4,9 +4,3 @@ bin/
 /.gradle
 run/
 logs/
-
-.idea/
-.settings/
-.vscode/
-.classpath
-.project
