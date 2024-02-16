@@ -20,9 +20,9 @@ import java.util.List;
 public class EnderStorageItem extends BlockItem {
 
 	private final static Item.Properties properties = new Item.Properties()
-			.maxStackSize(1)
-			.isImmuneToFire()
-			.group(ItemManager.ITEM_GROUP);
+			。maxStackSize(1)
+			。isImmuneToFire()
+			。group(ItemManager.ITEM_GROUP);
 
 	public EnderStorageItem(Block block, StorageTE.StorageTier tier) {
 		super(block, properties);
@@ -40,7 +40,7 @@ public class EnderStorageItem extends BlockItem {
 
 		if (stack.hasTag()) {
 			CompoundNBT blockEntityTag = stack.getChildTag("BlockEntityTag");
-			if (blockEntityTag.contains("energy")) {
+			if (blockEntityTag != null && blockEntityTag.contains("energy")) {
 				energy = blockEntityTag.getDouble("energy");
 			}
 		}
