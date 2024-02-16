@@ -18,48 +18,48 @@ import java.util.List;
 
 public class EnderStorageItem extends BlockItem {
 
-	private final static Item.Properties properties = new Item.Properties()
-			.stacksTo(1)
-			.fireResistant()
-			.tab(ItemManager.ITEM_GROUP);
+    private final static Item.Properties properties = new Item.Properties()
+            .stacksTo(1)
+            .fireResistant()
+            .tab(ItemManager.ITEM_GROUP);
 
-	public EnderStorageItem(Block block, StorageBE.StorageTier tier) {
-		super(block, properties);
-		this.tier = tier;
-	}
+    public EnderStorageItem(Block block, StorageBE.StorageTier tier) {
+        super(block, properties);
+        this.tier = tier;
+    }
 
-	private final StorageBE.StorageTier tier;
+    private final StorageBE.StorageTier tier;
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-		double energy = 0;
+        double energy = 0;
 
-		if (stack.hasTag()) {
-			CompoundTag blockEntityTag = stack.getTagElement("BlockEntityTag");
-			if (blockEntityTag != null && blockEntityTag.contains("energy")) {
-				energy = blockEntityTag.getDouble("energy");
-			}
-		}
-		
-		tooltip.add(Component.translatable("item.exponentialpower.storage.tooltip.stored"));
-		tooltip.add(Component.literal(energy + "/" + getMaxEnergy()));
-		double percent = ((int)(energy/getMaxEnergy() * 10000.00)) / 100.00;
-		tooltip.add(Component.literal("(" + percent + "%)"));
-	}
+        if (stack.hasTag() && stack.getTag().contains("BlockEntityTag")) {
+            CompoundTag blockEntityTag = stack.getTag().getCompound("BlockEntityTag");
+            if (blockEntityTag.contains("energy")) {
+                energy = blockEntityTag.getDouble("energy");
+            }
+        }
+        
+        tooltip.add(Component.translatable("item.exponentialpower.storage.tooltip.stored"));
+        tooltip.add(Component.literal(energy + "/" + getMaxEnergy()));
+        double percent = ((int)(energy/getMaxEnergy() * 10000.00)) / 100.00;
+        tooltip.add(Component.literal("(" + percent + "%)"));
+    }
 
-	public double getMaxEnergy() {
-		switch (tier) {
-			case REGULAR:
-				return Config.ENDER_STORAGE_MAX_ENERGY.get();
+    public double getMaxEnergy() {
+        switch (tier) {
+            case REGULAR:
+                return Config.ENDER_STORAGE_MAX_ENERGY.get();
 
-			case ADVANCED:
-				return Config.ADV_ENDER_STORAGE_MAX_ENERGY.get();
+            case ADVANCED:
+                return Config.ADV_ENDER_STORAGE_MAX_ENERGY.get();
 
-			default:
-				return Double.MAX_VALUE;
-		}
-	}
+            default:
+                return Double.MAX_VALUE;
+        }
+    }
 }
